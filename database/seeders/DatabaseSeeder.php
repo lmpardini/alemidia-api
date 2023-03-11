@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\DadosEmpresa;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -14,7 +15,8 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             RegrasAcessoSeeder::class,
-            UsersSeeder::class
+            UsersSeeder::class,
+            DadosEmpresaSeeder::class
         ]);
     }
 }

@@ -118,4 +118,13 @@ Route::prefix('admin')
                 Route::get('/roles', 'index');
                 Route::post('/role', 'store');
             });
+
+        /**
+         * Dados Empresa Controller
+         */
+        Route::controller(\App\Http\Controllers\Admin\DadosEmpresaController::class)
+            ->group(function () {
+                Route::get('/dados-empresa', 'show');
+                Route::put('/dados-empresa', 'update');
+            });
     });
