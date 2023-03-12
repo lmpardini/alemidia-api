@@ -18,6 +18,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property string $nome
  * @property string $usuario
  * @property string $email
+ * @property boolean $ativo
  * @property Carbon $email_verified_at
  * @property integer $password
  * @property boolean $primeiro_acesso

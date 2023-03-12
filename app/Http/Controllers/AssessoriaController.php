@@ -69,10 +69,10 @@ class AssessoriaController extends Controller
 
         try {
 
-            $assessoria = Assessoria::where('slug', Str::slug($request->nome_razao_social))->first();
+            $assessoria = Assessoria::where('slug', Str::slug($request->nome_razao_social, '_'))->first();
 
             if ($assessoria) {
-                throw new \Exception("Já existe um buffet cadastrado com esse nome/razão social");
+                throw new \Exception("Já existe uma Assessoria cadastrada com esse nome/razão social");
             }
 
             $assessoria = new Assessoria();
@@ -143,7 +143,7 @@ class AssessoriaController extends Controller
             }
 
             if ($assessoria && $assessoria->id !== $id) {
-                throw new \Exception("Já existe um buffet cadastrado com este nome", 422);
+                throw new \Exception("Já existe uma Assessoria cadastrada com este nome", 422);
             }
 
             $assessoria->tipo_cadastro = $request->tipo_cadastro;

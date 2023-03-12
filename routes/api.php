@@ -127,4 +127,22 @@ Route::prefix('admin')
                 Route::get('/dados-empresa', 'show');
                 Route::put('/dados-empresa', 'update');
             });
+
+        /**
+         * Colaborador Controller
+         */
+        Route::controller(\App\Http\Controllers\Admin\ColaboradorController::class)
+            ->group(function () {
+                Route::get('/colaboradores', 'index');
+                Route::get('/colaborador/{id}', 'show');
+                Route::post('/colaborador', 'store');
+                Route::put('/colaborador/{id}', 'update');
+            });
+        /**
+         * Colaborador Função Controller
+         */
+        Route::controller(\App\Http\Controllers\Admin\FuncaoController::class)
+            ->group(function() {
+                Route::get('colaborador-funcao', 'index');
+            });
     });

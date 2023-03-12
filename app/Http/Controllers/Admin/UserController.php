@@ -111,6 +111,7 @@ class UserController extends Controller
             $user->nome = $request->nome;
             $user->usuario = $request->usuario;
             $user->email = $request->email;
+            $user->ativo = $request->ativo;
             $user->removeRole($role[0]);
             $user->assignRole($request->role);
             $user->save();

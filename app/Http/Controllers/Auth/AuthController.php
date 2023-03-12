@@ -25,6 +25,12 @@ class AuthController extends Controller
             }
 
             $user = auth()->user();
+
+            if (!$user->ativo){
+                throw new \Exception("Seu usuário foi desativado pelo administrador do sistema.
+                                      Para maiores informações entre em contato com o seu gestor");
+            }
+
             $user->roles = $user->getRoleNames();
 
             $user->regra_acesso = $user->roles;
