@@ -146,7 +146,6 @@ class UserController extends Controller
         } catch (\Exception $e) {
             return response()->json(["success" => false, "message" => $e->getMessage()], 400);
         }
-
     }
 
     private function generatePassword($qtyCaraceters = 8)

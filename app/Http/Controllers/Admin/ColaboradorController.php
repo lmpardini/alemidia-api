@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Colaborador;
 use App\Models\ColaboradorFuncao;
 use App\Models\Funcao;
-use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;

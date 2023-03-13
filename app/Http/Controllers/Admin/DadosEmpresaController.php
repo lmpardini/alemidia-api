@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\DadosEmpresa;
 use Illuminate\Http\Request;
-use mysql_xdevapi\Exception;
-
 
 class DadosEmpresaController extends Controller
 {
@@ -56,7 +54,7 @@ class DadosEmpresaController extends Controller
            $dadosEmpresa = DadosEmpresa::whereId($request->id)->first();
 
            if (!$dadosEmpresa){
-               throw new Exception("Empresa não encontrada");
+               throw new \Exception("Empresa não encontrada");
            }
 
             $dadosEmpresa->nome_fantasia = $request->nome_fantasia;

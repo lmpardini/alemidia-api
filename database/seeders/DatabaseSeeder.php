@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\DadosEmpresa;
+use App\Models\Produto;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -17,7 +18,8 @@ class DatabaseSeeder extends Seeder
             RegrasAcessoSeeder::class,
             UsersSeeder::class,
             DadosEmpresaSeeder::class,
-            FuncaoSeeder::class
+            FuncaoSeeder::class,
+            ProdutoSeeder::class
         ]);
     }
 }

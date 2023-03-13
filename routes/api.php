@@ -138,11 +138,23 @@ Route::prefix('admin')
                 Route::post('/colaborador', 'store');
                 Route::put('/colaborador/{id}', 'update');
             });
+
         /**
          * Colaborador Função Controller
          */
         Route::controller(\App\Http\Controllers\Admin\FuncaoController::class)
             ->group(function() {
                 Route::get('colaborador-funcao', 'index');
+            });
+
+        /**
+         * Produtos Controller
+         */
+        Route::controller(\App\Http\Controllers\Admin\ProdutoController::class)
+            ->group(function () {
+                Route::get('/produtos', 'index');
+                Route::get('/produto/{id}', 'show');
+                Route::post('/produto', 'store');
+                Route::put('/produto/{id}', 'update');
             });
     });
