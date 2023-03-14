@@ -167,15 +167,24 @@ Route::prefix('admin')
                 /**
                  * Forma Pagamento Controller
                  */
-                Route::controller(\App\Http\Controllers\Admin\FormasPagamentosController::class)
+                Route::controller(\App\Http\Controllers\Admin\PagamentoFormasPagamentosController::class)
                     ->group(function () {
                         Route::get('/formas', 'index');
+                        Route::get('/formas-pagamento', 'listaFormaPagamento');
                         Route::get('/forma/{id}', 'show');
                         Route::post('/forma', 'store');
                         Route::put('/forma/{id}', 'update');
-
                     });
 
-
+                /**
+                 * Condicao Pagamento Controller
+                 */
+                Route::controller(\App\Http\Controllers\Admin\PagamentoCondicaoPagamentosController::class)
+                    ->group(function () {
+                        Route::get('/condicoes', 'index');
+                        Route::get('/condicao/{id}', 'show');
+                        Route::post('/condicao', 'store');
+                        Route::put('/condicao/{id}', 'update');
+                    });
             });
     });

@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\FormaPagamento;
+use App\Models\PagamentoFormaPagamento;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -45,7 +45,7 @@ class FormaPagamentoSeeder extends Seeder
         ];
 
         foreach ($formasPagamentos as $fp) {
-            $formaPagamento = new FormaPagamento();
+            $formaPagamento = new PagamentoFormaPagamento();
             $formaPagamento->nome = $fp['nome'];
             $formaPagamento->slug = $fp['slug'];
             $formaPagamento->descricao = $fp['descricao'];

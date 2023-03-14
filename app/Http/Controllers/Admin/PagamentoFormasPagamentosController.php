@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\FormaPagamento;
+use App\Models\PagamentoFormaPagamento;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 
-class FormasPagamentosController extends Controller
+class PagamentoFormasPagamentosController extends Controller
 {
     public function index(Request $request)
     {
@@ -18,7 +18,7 @@ class FormasPagamentosController extends Controller
 
         try {
 
-            $formaPagamentos = FormaPagamento::select('id','nome', 'ativo')
+            $formaPagamentos = PagamentoFormaPagamento::select('id','nome', 'slug', 'ativo')
                 ->when($request->filtro, function ($query, $filter) {
                     $query->where('nome', 'like', '%'. strtoupper($filter).'%');
                 })->get();
@@ -33,7 +33,7 @@ class FormasPagamentosController extends Controller
     {
         try {
 
-            $formaPagamento = FormaPagamento::whereId($id)->first();
+            $formaPagamento = PagamentoFormaPagamento::whereId($id)->first();
 
             if (!$formaPagamento){
                 throw new \Exception("Forma de pagamento não encontrado");
@@ -54,15 +54,15 @@ class FormasPagamentosController extends Controller
         try {
 
             /**
-             * @var FormaPagamento $formaPagamento
+             * @var PagamentoFormaPagamento $formaPagamento
              */
-            $formaPagamento = FormaPagamento::where('slug', Str::slug($request->nome, '_'))->first();
+            $formaPagamento = PagamentoFormaPagamento::where('slug', Str::slug($request->nome, '_'))->first();
 
             if ($formaPagamento) {
                 throw new \Exception("Já existe uma forma de pagamento cadastrado com esse nome");
             }
 
-            $formaPagamento = new FormaPagamento();
+            $formaPagamento = new PagamentoFormaPagamento();
             $formaPagamento->nome = $request->nome;
             $formaPagamento->slug = Str::slug($request->nome, '_');
             $formaPagamento->descricao = $request->descricao;
@@ -85,9 +85,9 @@ class FormasPagamentosController extends Controller
         try {
 
             /**
-             * @var FormaPagamento $formaPagamento
+             * @var PagamentoFormaPagamento $formaPagamento
              */
-            $formaPagamento = FormaPagamento::whereId($id)->first();
+            $formaPagamento = PagamentoFormaPagamento::whereId($id)->first();
 
             if (!$formaPagamento){
                 throw new \Exception("Forma de pagamento não encontrado");
@@ -103,5 +103,18 @@ class FormasPagamentosController extends Controller
         } catch (\Exception $e) {
             return response()->json(["success" => false, "message" => $e->getMessage()], 400);
         }
+    }
+
+    public function listaFormaPagamento()
+    {
+        try {
+
+            $formaPagamentos = PagamentoFormaPagamento::where('ativo', true)->get();
+
+            return response()->json(["success" => true, "data" => $formaPagamentos], 200);
+        } catch (\Exception $e) {
+            return response()->json(["success" => false, "message" => $e->getMessage()], 400);
+        }
+
     }
 }

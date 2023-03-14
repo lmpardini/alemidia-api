@@ -20,15 +20,16 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  */
 
-class FormaPagamento extends Model
+class PagamentoFormaPagamento extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = "forma_pagamento";
+    protected $table = "pagamento_forma_pagamento";
 
     protected $hidden = [
         'created_at',
         'updated_at',
-        'deleted_at'
+        'deleted_at',
+        'laravel_through_key'
     ];
 }
