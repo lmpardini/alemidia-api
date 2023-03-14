@@ -157,4 +157,25 @@ Route::prefix('admin')
                 Route::post('/produto', 'store');
                 Route::put('/produto/{id}', 'update');
             });
+
+        /**
+         * Pagamentos
+         */
+        Route::prefix('pagamento')
+            ->group(function () {
+
+                /**
+                 * Forma Pagamento Controller
+                 */
+                Route::controller(\App\Http\Controllers\Admin\FormasPagamentosController::class)
+                    ->group(function () {
+                        Route::get('/formas', 'index');
+                        Route::get('/forma/{id}', 'show');
+                        Route::post('/forma', 'store');
+                        Route::put('/forma/{id}', 'update');
+
+                    });
+
+
+            });
     });

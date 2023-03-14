@@ -19,7 +19,8 @@ class DatabaseSeeder extends Seeder
             UsersSeeder::class,
             DadosEmpresaSeeder::class,
             FuncaoSeeder::class,
-            ProdutoSeeder::class
+            ProdutoSeeder::class,
+            FormaPagamentoSeeder::class
         ]);
     }
 }
