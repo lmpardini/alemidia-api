@@ -88,7 +88,15 @@ Route::middleware(['auth:sanctum', 'role:admin|user'])
             ->group(function () {
                 Route::get('/busca-cep', 'buscaCep');
             });
+
+        Route::controller(\App\Http\Controllers\ListarController::class)
+            ->group(function () {
+                Route::get('listar-produtos', 'listarProdutos');
+                Route::get('listar-vendedores', 'listarVendedores');
+
+            });
     });
+
 
 
 /**
