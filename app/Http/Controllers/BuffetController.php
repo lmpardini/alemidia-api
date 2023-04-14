@@ -175,4 +175,25 @@ class BuffetController extends Controller
             return response()->json(["success" => false, "message" => $e->getMessage()], 400);
         }
    }
+
+   public function listarAtivos(Request $request)
+   {
+       $this->validate($request, [
+           'filtro'=> ''
+       ]);
+
+       try {
+
+           $buffets = Buffet::select('tipo_cadastro','id','nome_razao_social', 'mail', 'celular', 'cidade')
+               ->when($request->filtro, function ($query, $filter) {
+                   $query->where('nome_razao_social', 'like', '%'. strtoupper($filter).'%');
+               })
+               ->where('ativo', true)
+               ->get();
+
+           return response()->json(["success" => true, "data" => $buffets], 200);
+       } catch (\Exception $e) {
+           return response()->json(["success" => false, "message" => $e->getMessage()], 400);
+       }
+   }
 }

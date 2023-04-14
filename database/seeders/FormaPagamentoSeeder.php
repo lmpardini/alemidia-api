@@ -24,7 +24,7 @@ class FormaPagamentoSeeder extends Seeder
             [
                 "nome"      => "Pix",
                 "slug"      => "pix",
-                "descricao" => "Pagamento via Pix",
+                "descricao" => "Pagamento via Pix - Chave: (colocar chave pix aqui)",
 
             ],
             [
@@ -38,8 +38,8 @@ class FormaPagamentoSeeder extends Seeder
                 "descricao" => "Pagamento via Cartão de Débito",
             ],
             [
-                "nome"      => "Cortesia",
-                "slug"      => "cortesia",
+                "nome"      => "Sem Custo",
+                "slug"      => "sem_custo",
                 "descricao" => "Contratos fechados sem valor",
             ],
         ];

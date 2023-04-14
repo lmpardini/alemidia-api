@@ -213,4 +213,7 @@ return [
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ])->toArray(),
 
+    'charset' => 'utf8',
+
+
 ];

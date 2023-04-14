@@ -144,4 +144,25 @@ class ClientesController extends Controller
             return response()->json(["success" => false, "message" => $e->getMessage()], 400);
         }
     }
+
+    public function listarAtivos(Request $request)
+    {
+        $this->validate($request, [
+            'filtro'=> ''
+        ]);
+
+        try {
+
+            $clientes = Cliente::select('tipo_cadastro','id','nome_razao_social', 'cpf_cnpj', 'mail', 'celular')
+                ->when($request->filtro, function ($query, $filter) {
+                    $query->where('nome_razao_social', 'like', '%'. strtoupper($filter).'%');
+                })
+                ->where('ativo', true)
+                ->get();
+
+            return response()->json(["success" => true, "data" => $clientes], 200);
+        } catch (\Exception $e) {
+            return response()->json(["success" => false, "message" => $e->getMessage()], 400);
+        }
+    }
 }

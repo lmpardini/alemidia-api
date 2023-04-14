@@ -23,6 +23,8 @@ Route::prefix('auth')
         Route::post('login', 'login');
     });
 
+
+
 /**
  * Rotas Privadas
  */
@@ -54,6 +56,7 @@ Route::middleware(['auth:sanctum', 'role:admin|user'])
         Route::controller(\App\Http\Controllers\ClientesController::class)
             ->group(function () {
                 Route::get('/clientes', 'index');
+                Route::get('/clientes-ativos', 'listarAtivos');
                 Route::get('/cliente/{id}', 'show');
                 Route::post('/cliente', 'store');
                 Route::put('/cliente/{id}', 'update');
@@ -65,6 +68,7 @@ Route::middleware(['auth:sanctum', 'role:admin|user'])
         Route::controller(\App\Http\Controllers\BuffetController::class)
             ->group(function () {
                 Route::get('/buffets', 'index');
+                Route::get('/buffets-ativos', 'listarAtivos');
                 Route::get('/buffet/{id}', 'show');
                 Route::post('/buffet', 'store');
                 Route::put('/buffet/{id}', 'update');
@@ -76,6 +80,7 @@ Route::middleware(['auth:sanctum', 'role:admin|user'])
         Route::controller(\App\Http\Controllers\AssessoriaController::class)
             ->group(function () {
                 Route::get('/assessorias', 'index');
+                Route::get('/assessorias-ativos', 'listarAtivos');
                 Route::get('/assessoria/{id}', 'show');
                 Route::post('/assessoria', 'store');
                 Route::put('/assessoria/{id}', 'update');
@@ -89,15 +94,33 @@ Route::middleware(['auth:sanctum', 'role:admin|user'])
                 Route::get('/busca-cep', 'buscaCep');
             });
 
+        /**
+         * Contratos Controller
+         */
+
+        Route::controller(\App\Http\Controllers\ContratoController::class)
+            ->group(function () {
+                Route::get('/contratos', 'index');
+                Route::get('/contrato/{id}', 'show');
+                Route::post('/verifica-data-produto/', 'verificaDisponibilidadeProduto');
+                Route::post('/contrato', 'store');
+                Route::put('/contrato/{id}', 'update');
+                Route::get('/donwload-contrato/{id}', 'gerarContrato');
+               Route::delete('contrato/{id}', 'destroy');
+            });
+
+        /**
+         * Listar Ativos
+         */
+
         Route::controller(\App\Http\Controllers\ListarController::class)
             ->group(function () {
                 Route::get('listar-produtos', 'listarProdutos');
                 Route::get('listar-vendedores', 'listarVendedores');
-
+                Route::get('listar-condicao-pagamento', 'listarCondicaoPagamento');
+                Route::get('listar-forma-pagamento', 'listarCondicaoPagamento');
             });
     });
-
-
 
 /**
  * Rotas Admin

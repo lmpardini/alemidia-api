@@ -22,14 +22,14 @@ class CondicaoPagamentoSeeder extends Seeder
                 "slug"                => "a_vista",
                 "descricao"           => "Condições para pagamento a vista nas formas disponíveis",
                 "aceita_parcelamento" => false,
-                "formas_pagamentos"   => [1,2,3,4]
+                "formas_pagamentos"   => [1,2]
             ],
             [
                 "nome"                => "Parcelado",
                 "slug"                => "parcelado",
                 "descricao"           => "Condições para pagamento parcelado nas formas disponíveis",
                 "aceita_parcelamento" => true,
-                "formas_pagamentos"   => [1,2,3,4]
+                "formas_pagamentos"   => [1,2]
             ],
             [
                 "nome"                => "Permuta",
