@@ -5,7 +5,7 @@
 <p>Usuário: {{$data['usuario'] }}</p>
 <p>Senha: {{ $data['password'] }}</p>
 
-<p>Ao realizar o acesso você poderá definir uma senha de sua preferencia.</p>
+<p>Ao realizar o acesso você deverá definir uma senha de sua preferencia.</p>
 
 
 <p>Algum texto bonitinho de despedida</p>

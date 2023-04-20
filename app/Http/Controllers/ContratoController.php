@@ -505,7 +505,7 @@ class ContratoController extends Controller
             $contrato = Contrato::whereId($id)
                 ->with('Assessoria', 'Buffet', 'Cliente', 'Vendedor', 'ContratoProduto.Produto', 'ContratoPagamento', 'ContratoPagamento.FormaPagamento', 'CondicaoPagamento')
                 ->first();
-            
+
             if (!$contrato) {
                 throw new \Exception("Contrato não encontrado");
             }
@@ -528,6 +528,93 @@ class ContratoController extends Controller
                 'Access-Control-Allow-Methods' => 'GET, POST, PUT, DELETE, OPTIONS',
                 'Access-Control-Allow-Headers' => 'Content-Type, Authorization',
             ]);
+
+        } catch (\Exception $e) {
+            return response()->json(["success" => false, "message" => $e->getMessage()], 400);
+        }
+    }
+
+    public function listarDadosResumoEvento(int $id)
+    {
+        try {
+
+            /**
+             * @var Contrato $contrato
+             */
+            $contrato = Contrato::whereId($id)->with('Cliente', 'Buffet','Assessoria','ContratoProduto')->first();
+
+            $produtos = [];
+
+            $contrato->ContratoProduto->map(function ($item) use(&$produtos) {
+                $produtos[] = $item->Produto->nome;
+
+            });
+
+            $retorno = [
+                'contrato'         => $contrato->id,
+                'data_evento'      => Carbon::createFromFormat('Y-m-d', $contrato->data_evento)->format('d/m/y'),
+                'noivo_debutante'  => $contrato->noivo_debutante,
+                'contratante'      => $contrato->Cliente->nome_razao_social,
+                'assessoria'       => $contrato->Assessoria->nome_razao_social,
+                'espaco'           => $contrato->Buffet->nome_razao_social,
+                'hora_inicio'      => Carbon::createFromTimeString($contrato->hora_inicio)->format('H:i'),
+                'hora_fim'         => Carbon::createFromTimeString($contrato->hora_fim)->format('H:i'),
+                'qtde_convidados'  => $contrato->qtde_convidados,
+                'produtos'         => $produtos,
+                'observacoes'      => $contrato->observacoes,
+
+            ];
+
+            return response()->json(["success" => true, "data" => $retorno], 200);
+
+        } catch (\Exception $e) {
+            return response()->json(["success" => false, "message" => $e->getMessage()], 400);
+        }
+    }
+
+    public function listarEventosPorDia(Request $request)
+    {
+        $this->validate($request, [
+            'data' => 'required|date_format:Y-m-d'
+        ]);
+
+        try {
+
+
+            $retorno = [];
+
+            /**
+             * @var Contrato $contrato
+             */
+            $contratos = Contrato::where('data_evento', $request->data)
+                ->with('Cliente', 'Buffet','Assessoria','ContratoProduto')->get();
+
+            foreach ($contratos as $contrato){
+
+                $produtos = [];
+
+                $contrato->ContratoProduto->map(function ($item) use(&$produtos) {
+                    $produtos[] = $item->Produto->nome;
+
+                });
+
+                $retorno[] = [
+                    'contrato'         => $contrato->id,
+                    'data_evento'      => Carbon::createFromFormat('Y-m-d', $contrato->data_evento)->format('d/m/y'),
+                    'noivo_debutante'  => $contrato->noivo_debutante,
+                    'contratante'      => $contrato->Cliente->nome_razao_social,
+                    'assessoria'       => $contrato->Assessoria->nome_razao_social,
+                    'espaco'           => $contrato->Buffet->nome_razao_social,
+                    'hora_inicio'      => Carbon::createFromTimeString($contrato->hora_inicio)->format('H:i'),
+                    'hora_fim'         => Carbon::createFromTimeString($contrato->hora_fim)->format('H:i'),
+                    'qtde_convidados'  => $contrato->qtde_convidados,
+                    'produtos'         => $produtos,
+                    'observacoes'      => $contrato->observacoes,
+                ];
+
+            }
+
+            return response()->json(["success" => true, "data" => $retorno], 200);
 
         } catch (\Exception $e) {
             return response()->json(["success" => false, "message" => $e->getMessage()], 400);

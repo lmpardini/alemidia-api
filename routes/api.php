@@ -101,7 +101,9 @@ Route::middleware(['auth:sanctum', 'role:admin|user'])
         Route::controller(\App\Http\Controllers\ContratoController::class)
             ->group(function () {
                 Route::get('/contratos', 'index');
+                Route::get('/contratos-por-data', 'listarEventosPorDia');
                 Route::get('/contrato/{id}', 'show');
+                Route::get('/contrato-resumo/{id}', 'listarDadosResumoEvento');
                 Route::post('/verifica-data-produto/', 'verificaDisponibilidadeProduto');
                 Route::post('/contrato', 'store');
                 Route::put('/contrato/{id}', 'update');
@@ -119,6 +121,7 @@ Route::middleware(['auth:sanctum', 'role:admin|user'])
                 Route::get('listar-vendedores', 'listarVendedores');
                 Route::get('listar-condicao-pagamento', 'listarCondicaoPagamento');
                 Route::get('listar-forma-pagamento', 'listarCondicaoPagamento');
+                Route::get('/listar-eventos', 'listarEventosPorData');
             });
     });
 
