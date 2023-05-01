@@ -11,7 +11,10 @@ class BuffetController extends Controller
     public function index(Request $request)
     {
         $this->validate($request, [
-            'filtro'=> ''
+            'filtro'=> '',
+            'per_page' => 'required',
+            'label' => '',
+            'dir' => '',
         ]);
 
         try {
@@ -19,7 +22,9 @@ class BuffetController extends Controller
             $buffets = Buffet::select('tipo_cadastro','id','nome_razao_social', 'mail', 'celular', 'cidade')
                 ->when($request->filtro, function ($query, $filter) {
                     $query->where('nome_razao_social', 'like', '%'. strtoupper($filter).'%');
-                })->get();
+                })->when($request->label && $request->dir, function ($query) use ($request) {
+                    $query->orderBy($request->label, $request->dir);
+                })->paginate($request->per_page);
 
             return response()->json(["success" => true, "data" => $buffets], 200);
         } catch (\Exception $e) {

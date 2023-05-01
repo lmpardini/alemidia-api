@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Contrato $Contrato
  * @property $data_pagamento
  * @property $valor
+ * @property boolean $quitado
  * @property $forma_pagamento_id
  * @property $created_at
  * @property $updated_at
@@ -32,7 +33,7 @@ class ContratoPagamento extends Model
 
     public function Contrato()
     {
-        return $this->hasMany(Contrato::class, 'id', 'contrato_id');
+        return $this->hasOne(Contrato::class, 'id', 'contrato_id');
     }
 
     public function FormaPagamento()

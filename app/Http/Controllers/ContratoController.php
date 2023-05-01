@@ -28,44 +28,36 @@ class ContratoController extends Controller
         $this->validate($request, [
             'filtro'=> '',
             'data_inicio'=> '',
-            'data_fim'=> ''
+            'data_fim'=> '',
+            'per_page' => 'required',
+            'label' => '',
+            'dir' => '',
         ]);
 
         try {
-            $retorno = [];
 
-            $contratos = Contrato::when($request->filtro, function ($query, $filter)  {
+            $contratos = Contrato::select('id','data_evento','cliente_id','buffet_id')->when($request->filtro, function ($query, $filter)  {
                 $query->whereHas('Cliente', function ($query) use ($filter) {
                     $query->where('nome_razao_social', 'like', '%'. strtoupper($filter).'%');
                 });
             })->when($request->data_inicio && $request->data_fim , function ($query) use ($request){
                 $query->whereBetween('data_evento', [$request->data_inicio, $request->data_fim]);
-            })
-                ->with(['Cliente','Buffet','ContratoPagamento', 'ContratoProduto.Produto'])->orderBy('data_evento', 'ASC')->get();
+            })->when($request->label && $request->dir, function ($query) use ($request) {
+                    $query->orderBy($request->label, $request->dir);
 
-            foreach ($contratos as $contrato) {
-                $produtos = [];
+            })->orderBy('data_evento','asc')
+                    ->with(['Cliente:id,nome_razao_social','Buffet:id,nome_razao_social','ContratoProduto.Produto:id,nome'])
+                ->paginate($request->per_page);
 
-                foreach ($contrato->ContratoProduto as $ctProd) {
-                    /**
-                     * @var ContratoProduto $ctProd
-                     */
-                    $produtos[] = $ctProd->Produto->nome;
-                }
+            $contratos->map(function ($item) {
+                $item->data = Carbon::createFromFormat('Y-m-d',$item->data_evento)->format('d/m/Y');
+                $item->produtos = $item->ContratoProduto->map(function ($item) {
+                    return $item->Produto->nome;
+                });
+            });
 
-                /**
-                 * @var Contrato $contrato
-                 */
-                $retorno[] = [
-                    'id'          => $contrato->id,
-                    'data_evento' => Carbon::createFromFormat('Y-m-d', $contrato->data_evento)->format('d/m/Y'),
-                    'contratante' => $contrato->Cliente->nome_razao_social,
-                    'buffet'      => $contrato->Buffet->nome_razao_social,
-                    'produtos'    => $produtos
-                ];
-            }
 
-           return response()->json(["success" => true, "data" => $retorno], 200);
+           return response()->json(["success" => true, "data" => $contratos], 200);
         } catch (\Exception $e) {
             return response()->json(["success" => false, "message" => $e->getMessage()], 400);
         }

@@ -193,6 +193,16 @@ Route::prefix('admin')
             });
 
         /**
+         * ContratoPagamento Controller
+         */
+
+        Route::controller(\App\Http\Controllers\Admin\ContratoPagamentoController::class)
+            ->group(function () {
+                Route::get('/listar-pagamentos', 'listarPagamentos');
+                Route::put('/quitar-pagamento', 'quitarParcela');
+            });
+
+        /**
          * Pagamentos
          */
         Route::prefix('pagamento')
